@@ -36,9 +36,22 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
         Models model = userList.get(position);
+        //holder.id.setText(model.getId());
         holder.name.setText(model.getName());
         holder.email.setText(model.getEmail());
 
+        holder.name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), DetailsActivity.class);
+                intent.putExtra("name",model.getName());
+                intent.putExtra("email",model.getEmail());
+                intent.putExtra("id",model.getId());
+                intent.putExtra("phone",model.getPhone());
+                intent.putExtra("website",model.getWebsite());
+                v.getContext().startActivity(intent);
+            }
+        });
 
 
         holder.email.setOnClickListener(new View.OnClickListener() {
@@ -48,6 +61,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 v.getContext().startActivity(openLinks);
             }
         });
+
     }
 
     @Override
@@ -58,8 +72,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public  class viewHolder extends RecyclerView.ViewHolder {
         TextView name;
         TextView email;
+        TextView id;
         public viewHolder(@NonNull View itemView) {
             super(itemView);
+            //id = itemView.findViewById(R.id.id);
             name = itemView.findViewById(R.id.name);
             email = itemView.findViewById(R.id.email);
         }

@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
     LinearLayoutManager layoutManager;
     RecyclerViewAdapter adapter;
     List<Models> userList = new ArrayList<>();
-    List<Models> singleList = new ArrayList<>();
+
 
 
     @Override
@@ -38,29 +38,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Models>> call, Response<List<Models>> response) {
                 if(response.body().size()>0){
-                    //Toast.makeText(MainActivity.this, "List is not Empty", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "List is not Empty", Toast.LENGTH_SHORT).show();
                     userList.addAll(response.body());
 
                     adapter.notifyDataSetChanged();
-                    Toast.makeText(MainActivity.this, "zero", Toast.LENGTH_SHORT).show();
-
-                    recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(MainActivity.this, recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(View view, int position) {
-                           // Toast.makeText(MainActivity.this, "item clicked", Toast.LENGTH_SHORT).show();
-                             Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
-                             startActivity(intent);
-
-                        }
-
-                        @Override
-                        public void onLongItemClick(View view, int position) {
-
-                        }
-                    }));
-
-
-
+                    //Toast.makeText(MainActivity.this, "zero", Toast.LENGTH_SHORT).show();
 
                 }else
                 {
@@ -75,9 +57,6 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("app", "response" + t.getLocalizedMessage());
             }
         });
-
-
-
 
     }
 

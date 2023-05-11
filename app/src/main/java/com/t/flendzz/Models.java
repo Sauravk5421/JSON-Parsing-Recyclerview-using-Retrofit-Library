@@ -1,15 +1,20 @@
 package com.t.flendzz;
 
 public class Models {
+    private String id;
     private String name;
-    private String username;
     private String email;
+    private String phone;
+    private String website;
 
 
-    public Models(String name, String email, String username) {
+
+    public Models( String id, String name, String email, String phone, String website) {
+        this.id = id;
         this.name = name;
         this.email = email;
-        this.username = username;
+        this.phone = phone;
+        this.website = website;
     }
 
     public String getName() {
@@ -28,12 +33,29 @@ public class Models {
         this.email = email;
     }
 
-
-    public String getUsername() {
-        return username;
+    public String getId() {
+        return id;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setId(String id) {
+        this.id = id;
     }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getWebsite() {
+        return website;
+    }
+
+    public void setWebsite(String website) {
+        this.website = website;
+    }
+
+
 }
