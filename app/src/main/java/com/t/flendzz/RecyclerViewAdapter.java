@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.viewHolder>{
@@ -36,19 +37,24 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
         Models model = userList.get(position);
-        //holder.id.setText(model.getId());
         holder.name.setText(model.getName());
-        holder.email.setText(model.getEmail());
+        holder.email.setText(model.getEmail().toLowerCase());
+
 
         holder.name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), DetailsActivity.class);
-                intent.putExtra("name",model.getName());
-                intent.putExtra("email",model.getEmail());
+                intent.putExtra("name",model.getName().replace(" ",""));
+                intent.putExtra("email",model.getEmail().toLowerCase());
                 intent.putExtra("id",model.getId());
                 intent.putExtra("phone",model.getPhone());
                 intent.putExtra("website",model.getWebsite());
+                intent.putExtra("suite",model.getDetailsAddress().getSuite());
+                intent.putExtra("street",model.getDetailsAddress().getStreet());
+                intent.putExtra("city",model.getDetailsAddress().getCity());
+                intent.putExtra("zipcode",model.getDetailsAddress().getZipcode());
+                intent.putExtra("cname",model.getDetailsCompany().getName());
                 v.getContext().startActivity(intent);
             }
         });
@@ -72,10 +78,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public  class viewHolder extends RecyclerView.ViewHolder {
         TextView name;
         TextView email;
-        TextView id;
         public viewHolder(@NonNull View itemView) {
             super(itemView);
-            //id = itemView.findViewById(R.id.id);
             name = itemView.findViewById(R.id.name);
             email = itemView.findViewById(R.id.email);
         }

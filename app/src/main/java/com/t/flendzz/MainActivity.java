@@ -1,5 +1,8 @@
 package com.t.flendzz;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,12 +24,13 @@ public class MainActivity extends AppCompatActivity {
     RecyclerViewAdapter adapter;
     List<Models> userList = new ArrayList<>();
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        checkConnection();
+
         recyclerView = findViewById(R.id.recyclerView);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -38,11 +42,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Models>> call, Response<List<Models>> response) {
                 if(response.body().size()>0){
-                    Toast.makeText(MainActivity.this, "List is not Empty", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(MainActivity.this, "List is not Empty", Toast.LENGTH_SHORT).show();
                     userList.addAll(response.body());
-
                     adapter.notifyDataSetChanged();
-                    //Toast.makeText(MainActivity.this, "zero", Toast.LENGTH_SHORT).show();
 
                 }else
                 {
@@ -54,10 +56,31 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<List<Models>> call, Throwable t) {
                 Toast.makeText(MainActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                Log.d("app", "response" + t.getLocalizedMessage());
+                //Log.d("app", "response" + t.getLocalizedMessage());
             }
         });
 
     }
+
+    public void checkConnection(){
+        ConnectivityManager manager = ((ConnectivityManager)
+                getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE));
+        NetworkInfo  activeNetwork = manager.getActiveNetworkInfo();
+
+        if(null!= activeNetwork){
+            if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI){
+                Toast.makeText(MainActivity.this, "WiFi Enabled", Toast.LENGTH_SHORT).show();
+            }
+            else if(activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE){
+                Toast.makeText(MainActivity.this, "Data Enabled", Toast.LENGTH_SHORT).show();
+            }
+
+        }
+        else {
+            Toast.makeText(MainActivity.this, "No Internet Connection", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
 
 }
